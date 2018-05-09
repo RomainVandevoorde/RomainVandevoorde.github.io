@@ -202,7 +202,8 @@ function arrAvg(array) {
 then = 0; // Init variable de calcul du temps passsé entre deux frames
 volData = []; // Store volume data
 
-
+minData = 0;
+maxData = 0;
 
 function myLoop(time) {
 	
@@ -219,14 +220,21 @@ function myLoop(time) {
 		
 		then = now - (elapsed%delay);
 		
-		var level = Math.log10(meter.volume)*20 + 50;
-		
+		var level = Math.log10(meter.volume)*20 + 60;
+
+		if(isFinite(level) && time > 5000) {
+            if (minData === 0 || level < minData) minData = level;
+            if (level > maxData) maxData = level;
+        }
+
 		volData = addData(level, volData);
 		
 		debugDiv.innerHTML = 'lvl: '+Math.round(level);
 		debugDiv.innerHTML += '<br>dat: '+volData.length;
 		debugDiv.innerHTML += '<br>avg: '+arrAvg(volData);
 		debugDiv.innerHTML += '<br>rgb: '+getGradient(arrAvg(volData));
+		debugDiv.innerHTML += '<br>Min: '+minData;
+        debugDiv.innerHTML += '<br>Max: '+maxData;
 		document.getElementsByTagName('body')[0].style.backgroundColor = getGradient(arrAvg(volData));
 
 		mainDisplay.innerHTML = getDisplayNb(arrAvg(volData));
