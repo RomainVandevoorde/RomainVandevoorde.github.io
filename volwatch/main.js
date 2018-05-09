@@ -219,11 +219,12 @@ function myLoop(time) {
 		
 		then = now - (elapsed%delay);
 		
-		var level = Math.log10(meter.volume)*20 + 60;
+		var level = Math.log10(meter.volume)*20 + 40;
 		
 		volData = addData(level, volData);
 		
 		debugDiv.innerHTML = 'lvl: '+Math.round(level);
+		debugDiv.innerHTML += '<br>dat: '+volData.length;
 		debugDiv.innerHTML += '<br>avg: '+arrAvg(volData);
 		debugDiv.innerHTML += '<br>rgb: '+getGradient(arrAvg(volData));
 		document.getElementsByTagName('body')[0].style.backgroundColor = getGradient(arrAvg(volData));
