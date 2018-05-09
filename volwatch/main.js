@@ -142,10 +142,18 @@ function getGradient(nb) {
     rafID = window.requestAnimationFrame( drawLoop );
 }*/
 
+// Permet d'ajouter des données au tableau en enlevant les éléments les plus vieux et en validant la donnée
+// data: float
+// array: array
+// return array
 function addData(data, array) {
 
+	// Au chargement de la page, data vaudra -Infinity
+	// On ne veut évidemment pas stocker ces données dans le tableau
 	if(!isFinite(data)) return array;
-	
+
+	// Si il y a moins de 40 éléments, push simple
+	// Si il y a 40 élements, on enlève le premier avant d'ajouter notre nouvelle donnée
 	if(array.length < 40) {
 		array.push(data);
 		return array;
@@ -157,6 +165,8 @@ function addData(data, array) {
 	
 }
 
+// Calcule la moyenne de tous les éléments d'un tableau
+// return float
 function arrAvg(array) {
 	var total = 0;
 	var nb = array.length;
@@ -167,12 +177,12 @@ function arrAvg(array) {
 	return total/nb;
 }
 
-then = 0;
-volData = [];
+then = 0; // Init variable de calcul du temps passsé entre deux frames
+volData = []; // Store volume data
 
 function myLoop(time) {
 	
-	var delay = 100;
+	var delay = 100; // Délai entre deux calculs
 	var avTime = 2000;
     var divDisplay = document.getElementById('dispRom');
 	
