@@ -2,8 +2,7 @@
 <html>
 	<head>
 		<title>Volume Meter Sample</title>
-		<style>
-		</style>
+		<link href="style.css" rel="stylesheet"/>
 		<!-- Include the volume meter component -->
 		<script src="volume-meter.js"></script>
 		<!-- Include the main app logic -->
@@ -11,12 +10,15 @@
 	</head>
 	<body>
 
-		<button>Lancer</button>
 
-<div id="dispRom" style="width:200px;height:100px"></div>
-<div id="smoothDisp" style="width:200px;height:100px"></div>
 
-	<div id="debug" style="font-family: "></div>
+
+	<main>
+		<div id="control"><button>Lancer</button></div>
+		<div id="display"><h2></h2></div>
+	</main>
+
+	<div id="debug">Loading...</div>
 
 	</body>
 </html>

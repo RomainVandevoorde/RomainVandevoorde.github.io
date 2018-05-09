@@ -35,6 +35,8 @@ window.onload = function() {
         console.log('resumed');
     });
 
+    debugDiv = document.getElementById('debug');
+
     // grab our canvas
     // canvasContext = document.getElementById( "meter" ).getContext("2d");
 	
@@ -63,13 +65,13 @@ window.onload = function() {
                     "googHighpassFilter": "false"
                 },
                 "optional": []
-            },
+            }
         }, gotStream, didntGetStream);
     } catch (e) {
         alert('getUserMedia threw exception :' + e);
     }
 
-}
+};
 
 
 function didntGetStream() {
@@ -180,11 +182,13 @@ function arrAvg(array) {
 then = 0; // Init variable de calcul du temps passsé entre deux frames
 volData = []; // Store volume data
 
+
+
 function myLoop(time) {
 	
 	var delay = 100; // Délai entre deux calculs
 	var avTime = 2000;
-    var divDisplay = document.getElementById('dispRom');
+    var divDisplay = document.getElementById('debug');
 	
 	requestAnimationFrame(myLoop);
 	
@@ -198,10 +202,10 @@ function myLoop(time) {
 		var level = Math.log10(meter.volume)*20 + 60;
 		
 		volData = addData(level, volData);
-
-		// console.log(volData.toString());
 		
-		divDisplay.innerHTML = Math.round(level)+'<br>'+arrAvg(volData)+'<br>'+getGradient(arrAvg(volData));
+		debugDiv.innerHTML = 'lvl: '+Math.round(level);
+		debugDiv.innerHTML += '<br>avg: '+arrAvg(volData);
+		debugDiv.innerHTML += '<br>rgb: '+getGradient(arrAvg(volData));
 		document.getElementsByTagName('body')[0].style.backgroundColor = getGradient(arrAvg(volData));
 		
 		
