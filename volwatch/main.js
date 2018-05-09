@@ -219,7 +219,7 @@ function myLoop(time) {
 		
 		then = now - (elapsed%delay);
 		
-		var level = Math.log10(meter.volume)*20 + 40;
+		var level = Math.log10(meter.volume)*20 + 50;
 		
 		volData = addData(level, volData);
 		
