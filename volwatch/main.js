@@ -30,9 +30,14 @@ var rafID = null;
 
 window.onload = function() {
 
-    document.getElementsByTagName('button')[0].addEventListener('click', function(){
+	launchButton = document.getElementById('control').getElementsByTagName('button')[0];
+	mainDisplay = document.getElementById('display').getElementsByTagName('h2')[0];
+
+	// Nécessaire pour Google Chrome
+    launchButton.addEventListener('click', function(){
         audioContext.resume();
-        console.log('resumed');
+        launchButton.style.display = 'none';
+        document.getElementById('display').style.display = 'block';
     });
 
     debugDiv = document.getElementById('debug');
@@ -45,6 +50,9 @@ window.onload = function() {
 	
     // grab an audio context
     audioContext = new AudioContext();
+
+    // Pour avoir le même comportement que Chrome dans tous les navigateurs
+    audioContext.suspend();
 
     // Attempt to get audio input
     try {
@@ -98,7 +106,7 @@ function getGradient(nb) {
 	var step2 = 50; // Step 2: red
 	var inter = step2-step1;
 
-	if(nb < 0) {
+	if(nb < 0 ) {
 		return 'rgb(0,200,0)';
 	}
 	else if(nb < step1) {
@@ -111,6 +119,10 @@ function getGradient(nb) {
 		// var greenLvl = 200 - 5*(nb-40);
 		var greenLvl = Math.ceil(200 - ((200/inter)*(nb - inter)));
 		return 'rgb(255,'+greenLvl+',0)';
+
+	} else if (!isFinite(nb)) {
+		// Si on ne reçoit pas de donénes du micro, background noir
+		return 'rgb(0,0,0)';
 
 	} else {
 		// red
@@ -167,6 +179,14 @@ function addData(data, array) {
 	
 }
 
+function getDisplayNb(nb) {
+
+    if(isNaN(nb) || nb < 0 || !isFinite(nb)) return 0;
+
+    return Math.round(nb);
+
+}
+
 // Calcule la moyenne de tous les éléments d'un tableau
 // return float
 function arrAvg(array) {
@@ -207,6 +227,8 @@ function myLoop(time) {
 		debugDiv.innerHTML += '<br>avg: '+arrAvg(volData);
 		debugDiv.innerHTML += '<br>rgb: '+getGradient(arrAvg(volData));
 		document.getElementsByTagName('body')[0].style.backgroundColor = getGradient(arrAvg(volData));
+
+		mainDisplay.innerHTML = getDisplayNb(arrAvg(volData));
 		
 		
 	}
